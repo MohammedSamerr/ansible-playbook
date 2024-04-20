@@ -36,21 +36,7 @@ pipeline{
                 }
             }
         }
-        stage('Send Email') {
-            steps {
-                script {
-                    // Run Script 
-                    def scriptOutput = sh(script: 'path/to/your/script.sh', returnStdout: true).trim()
-                    env.users = scriptOutput
-
-                    // Send Email
-                    emailext subject: 'Build Status: ${currentBuild.result}',
-                              body: 'The build status is ${currentBuild.result} \n Users are {${currentBuild.result}}.',
-                              to: 'mohamed.samir2413@gmail.com',
-                              mimeType: 'text/plain'
-                }
-            }
-        }
+        
         stage("Execute playbook"){
             steps{
                  git "https://github.com/MohammedSamerr/ansible-playbook.git"
@@ -64,6 +50,32 @@ pipeline{
                 }
             }
              }
+
+        stage('Send Email') {
+            steps {
+                script {
+                    // Run Script 
+                    def scriptOutput = sh(script: '/home/samir/Documents/ansible-playbook', returnStdout: true).trim()
+                    env.users = scriptOutput
+
+
+                    // Build the email body
+
+                    def buildStartTimeInMillis = currentBuild.startTimeInMillis
+                    def buildStartTime = new Date(buildStartTimeInMillis).toString()
+                    
+                    
+                    def emailBody = "The build status is ${currentBuild.result}.\n"
+                    emailBody += "Pipeline execution started at: ${buildStartTime}\n"
+                    emailBody += "Script output:\n${env.users}\n"
+                    // Send Email
+                    emailext subject: 'Build Status: ${currentBuild.result}',
+                              body: emailBody,
+                              to: 'mohamed.samir2413@gmail.com',
+                              mimeType: 'text/plain'
+                }
+            }
+        }
     }
 }
 
