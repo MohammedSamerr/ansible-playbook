@@ -1,20 +1,13 @@
 pipeline{
     agent any
 
-    environment{
-        APP_NAME= "git-ops-pipeline"
-        TAG_NAME = "${BUILD_NUMBER}"
-    }
-
     stages{
-        stages{
         stage('Cleanup workspace'){
             steps{
                 script{
                     cleanWs()
                 }
             }
-        }
         }
         stage('Checkout SCM'){
             steps{
@@ -52,5 +45,6 @@ pipeline{
              }
     }
 }
+
 
 
