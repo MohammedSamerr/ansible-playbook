@@ -36,6 +36,15 @@ pipeline{
                 }
             }
         }
+
+        stage("Execute playbook"){
+            steps{
+                script{
+                    git "https://github.com/MohammedSamerr/ansible-playbook.git"
+                }
+            }
+        }
+
         stage("Run Ansible Playbook"){
             steps{
                 script{
