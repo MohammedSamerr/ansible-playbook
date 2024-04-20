@@ -23,8 +23,8 @@ pipeline{
             steps{
                 script{
                     sh """
-                        git  config --global user.name "MohammedSamer"
-                        git  config --global user.email "mohamed.samir2413@gmail.com"
+                        git  config --global user.name "user_name"
+                        git  config --global user.email "Email"
                         git add .
                         git commit -m "playbook updates"
                         """
@@ -71,7 +71,7 @@ pipeline{
                     // Send Email
                     emailext subject: 'Build Status: ${currentBuild.result}',
                               body: emailBody,
-                              to: 'mohamed.samir2413@gmail.com',
+                              to: 'Email',
                               mimeType: 'text/plain'
                 }
             }
